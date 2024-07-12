@@ -158,31 +158,7 @@ my-vue-flask-app/
 - Ensure your Vue.js development server is running on `http://localhost:8080`.
 - Adjust the URLs in the Axios requests if your servers are running on different ports or domains.
 
-## Deployment on production server
 
-### Backend
-
-1. **Install a production server (e.g., Gunicorn):**
-    ```sh
-    pip install gunicorn
-    ```
-
-2. **Run the server:**
-    ```sh
-    gunicorn -w 4 app:app
-    ```
-
-### Frontend
-
-1. **Build the production files:**
-    ```sh
-    npm run build
-    ```
-
-2. **Serve the built files using a static file server or integrate with a backend server.**
-
-## License
-This project is licensed under the MIT License.
 
 ## Acknowledgements
 - Flask
