@@ -14,33 +14,60 @@ my-vue-flask-app/
 
 │ ├── models.py 
 
-│ ├── init.py 
-│ └── venv/ 
+│ ├── init.py
+
+│ └── venv/
+
 ├── frontend/
-│ ├── node_modules/ 
-│ ├── public/ 
-│ ├── src/ 
-│ │ ├── assets/ 
-│ │ ├── components/ 
-│ │ │ ├── AppMenu.vue 
-│ │ │ ├── Login.vue 
-│ │ │ └── Register.vue 
-│ │ ├── router/ 
-│ │ │ └── index.js 
-│ │ ├── store/ 
-│ │ │ └── index.js 
-│ │ ├── views/ 
-│ │ │ ├── Dashboard.vue 
-│ │ │ └── Users.vue 
-│ │ ├── App.vue 
-│ │ ├── main.js 
-│ │ └── vuetify.js 
-│ ├── .gitignore 
-│ ├── babel.config.js 
-│ ├── package.json 
-│ ├── README.md 
-│ └── vue.config.js 
-├── .gitignore 
+
+│ ├── node_modules/
+
+│ ├── public/
+
+│ ├── src/
+
+│ │ ├── assets/
+
+│ │ ├── components/
+
+│ │ │ ├── AppMenu.vue
+
+│ │ │ ├── Login.vue
+
+│ │ │ └── Register.vue
+
+│ │ ├── router/
+
+│ │ │ └── index.js
+
+│ │ ├── store/
+
+│ │ │ └── index.js
+
+│ │ ├── views/
+
+│ │ │ ├── Dashboard.vue
+
+│ │ │ └── Users.vue
+
+│ │ ├── App.vue
+
+│ │ ├── main.js
+
+│ │ └── vuetify.js
+
+│ ├── .gitignore
+
+│ ├── babel.config.js
+
+│ ├── package.json
+
+│ ├── README.md
+
+│ └── vue.config.js
+
+├── .gitignore
+
 └── README.md
 
 
@@ -131,7 +158,7 @@ my-vue-flask-app/
 - Ensure your Vue.js development server is running on `http://localhost:8080`.
 - Adjust the URLs in the Axios requests if your servers are running on different ports or domains.
 
-## Deployment
+## Deployment on production server
 
 ### Backend
 
