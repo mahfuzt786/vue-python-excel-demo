@@ -7,9 +7,13 @@ The application allows users to upload an Excel file, display its content in a t
 ## Directory Structure
 
 my-vue-flask-app/ 
+
 ├── backend/ 
+
 │ ├── app.py 
+
 │ ├── models.py 
+
 │ ├── init.py 
 │ └── venv/ 
 ├── frontend/
