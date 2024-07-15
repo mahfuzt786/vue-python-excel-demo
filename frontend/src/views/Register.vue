@@ -45,6 +45,9 @@
                 <v-alert v-if="error" type="error" class="mt-4">
                   {{ error }}
                 </v-alert>
+                <v-alert v-if="success" type="success" class="mt-4">
+                  {{ success }}
+                </v-alert>
               </v-card-text>
               <v-card-actions>
                 <v-btn text color="primary" @click="$router.push('/login')">
@@ -69,6 +72,7 @@ export default {
       password: '',
       contactNumber: '',
       error: null,
+      success: null,
       rules: {
         required: (value) => !!value || 'This field is required.',
         email: (value) => {
@@ -83,15 +87,24 @@ export default {
       if (this.$refs.registerForm.validate()) {
         try {
           // Implement registration logic here
-          await this.$store.dispatch('register', {
+          const result = await this.$store.dispatch('register', {
             name: this.name,
             email: this.email,
             address: this.address,
             password: this.password,
             contactNumber: this.contactNumber,
           });
-          // Redirect to the login page
-          // this.$router.push('/login');
+
+          if(result) {
+            this.success = result
+      
+            // Redirect to the login page
+            setTimeout(() => this.$router.push('/login'), 500);
+          }
+          else {
+              this.error = this.$store.getters.errors
+          }
+          
         } catch (error) {
           this.error = error.response.data.msg;
         }

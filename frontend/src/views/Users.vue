@@ -156,7 +156,8 @@
             <v-card>
               <v-card-title>Confirm Delete</v-card-title>
               <v-card-text>
-                Are you sure you want to delete user: {{ userToDelete.name }}?
+                Are you sure you want to delete user: 
+                {{ userToDelete.name }}?
               </v-card-text>
               <v-card-actions>
                 <v-btn text color="primary" @click="showDeleteDialog = false">
@@ -216,7 +217,14 @@ export default {
         },
       },
       showDeleteDialog: false,
-      userToDelete: null,
+      // userToDelete: null,
+      userToDelete: {
+        id: null,
+        name: '',
+        email: '',
+        address: '',
+        contactNumber: '',
+      },
     };
   },
   created() {
@@ -249,6 +257,7 @@ export default {
           // Implement edit user logic here
           await this.$store.dispatch('updateUser', this.editedUser);
           this.showEditDialog = false;
+          this.fetchUsers();
         } catch (error) {
           this.error = error.response.data.msg;
         }

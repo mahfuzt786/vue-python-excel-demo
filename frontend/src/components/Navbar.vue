@@ -1,6 +1,6 @@
 <template>
     <nav>
-        <v-navigation-drawer v-model="drawer" app>
+        <v-navigation-drawer v-model="drawer" app v-if="isAuthenticated">
             <v-list-item>
                 <v-list-item-content>
                 <v-list-item-title class="text-h6">
@@ -24,7 +24,7 @@
         </v-navigation-drawer>
 
         <v-app-bar app>
-            <v-app-bar-nav-icon v-if="isAuthenticated" @click="drawer = !drawer"></v-app-bar-nav-icon>
+            <v-app-bar-nav-icon @click="drawer = !drawer" v-if="isAuthenticated"></v-app-bar-nav-icon>
             <v-toolbar-title>Demo KIC</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-btn v-if="isAuthenticated" text @click="logout">
@@ -38,10 +38,14 @@
 <script>
     import { mapGetters} from 'vuex';
 
-
     export default {
         computed: {
-        ...mapGetters(['isAuthenticated'])
+            ...mapGetters(['isAuthenticated']),
+        },
+        created() {
+            if(!this.$store.getters.isAuthenticated) {
+                this.logout()
+            }
         },
         data() {
             return {
@@ -54,9 +58,11 @@
         },
         methods: {
             logout() {
-            // Implement logout logic here
-            localStorage.removeItem('token');
-            this.$router.push('/login');
+                // Implement logout logic here
+                localStorage.removeItem('token');
+                this.$store.state.token = ''
+                this.$router.push('/login');
+                // console.log(this.$store.getters.isAuthenticated)
             },
         },
     };

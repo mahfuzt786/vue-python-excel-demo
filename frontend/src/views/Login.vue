@@ -50,6 +50,7 @@
 </template>
 
 <script>
+
 export default {
   data() {
     return {
@@ -77,9 +78,15 @@ export default {
             email: this.email,
             password: this.password,
           });
-          // Save the token and redirect to the dashboard
-          localStorage.setItem('token', token);
-          this.$router.push('/dashboard');
+
+          if(token) {
+            // Save the token and redirect to the dashboard
+            localStorage.setItem('token', token);
+            this.$router.push('/dashboard');
+          }
+          else {
+              this.error = this.$store.getters.errors
+          }
         } catch (error) {        
           // Display an error message to the user
           this.error = error.response.data.msg;

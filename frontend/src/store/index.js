@@ -1,37 +1,3 @@
-// import Vue from 'vue'
-// import Vuex from 'vuex'
-// import axios from 'axios'
-
-// Vue.use(Vuex)
-
-// export default new Vuex.Store({
-//   state: {
-//   },
-//   mutations: {
-//   },
-//   actions: {
-//     calculateValuesApi(state, input) {
-//       console.log(input)
-//       // console.log('values', JSON.stringify(input))
-//       const formData = new FormData();
-//       formData.append('data', JSON.stringify(input));
-
-//       // imp to load output in different structure for test and Addy
-//       // formData.append('ENVIRONMENT', 'TEST');
-//       formData.append('ENVIRONMENT', 'PROD');
-
-//       return axios.post('http://localhost/dental-api/', formData)
-//       // return axios.post('https://www.alegralabs.com/syed/dental-api/', formData)
-
-//       // return axios.post('http://localhost/dental-api-QA/', formData)
-//       // return axios.post('https://www.alegralabs.com/syed/dental-api-QA/', formData)
-//     }
-//   },
-//   modules: {
-//   }
-// })
-
-
 import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
@@ -43,6 +9,7 @@ export default new Vuex.Store({
   state: {
     token: null,
     user: null,
+    errors: null,
     users: [],
     workbook: null,
   },
@@ -59,22 +26,37 @@ export default new Vuex.Store({
     setWorkbook(state, workbook) {
       state.workbook = workbook;
     },
+    setErrors(state, errors) {
+      state.errors = errors;
+    },
   },
   actions: {
     async login({ commit }, { email, password }) {
       const response = await axios.post('http://127.0.0.1:8001/api/login', { email, password });
-      const token = response.data.access_token;
-      const user = response.data.user;
-
-      commit('setToken', token);
-      commit('setUser', user);
-      return token;
+      if(response.data.value == "issues") {
+        commit('setErrors', response.data.message);
+        return false
+      }
+      else {
+        const token = response.data.access_token;
+        const user = response.data.user;
+        commit('setToken', token);
+        commit('setUser', user);
+        commit('setErrors', '');
+        return token;
+      }
     },
-    async register(_, { name, email, address, password, contactNumber }) {
+    async register({ commit }, { name, email, address, password, contactNumber }) {
       const response = await axios.post('http://127.0.0.1:8001/api/register', { name, email, address, password, contactNumber });
       const message = response.data.message;
-      // commit('setToken', token);
-      return message;
+      if(response.data.value == "issues") {
+        commit('setErrors', response.data.message);
+        return false
+      }
+      else {
+        commit('setErrors', '');
+        return message;
+      }
     },
     async fetchUsers({ commit }) {
       const response = await axios.get('http://127.0.0.1:8001/api/users', {
@@ -134,6 +116,9 @@ export default new Vuex.Store({
     },
     user(state) {
       return state.user;
+    },
+    errors(state) {
+      return state.errors;
     }
   }
 });

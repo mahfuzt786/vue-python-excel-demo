@@ -80,6 +80,12 @@ The application allows users to upload an Excel file, display its content in a t
 	
 6. Users Page
 
+7.  #### Default admin login
+    - admin_email = 'admin@kic.com' / password = 'kic_admin12'
+    = On registration users will be created with role 'user'.
+    - admin can access all users profile.
+    - User can edit only own record.
+
 
 
 ## Additional Notes
