@@ -7,6 +7,7 @@ from models import db, User, create_default_admin
 from flask_bcrypt import Bcrypt
 import os
 import pandas as pd
+from datetime import datetime
 
 app = Flask(__name__)
 app.config.from_object('config.Config')
@@ -126,20 +127,22 @@ def get_excel_file():
     file_path = os.path.join(os.path.dirname(__file__), 'Security_Transactions_Data.xlsx')
     return send_file(file_path, as_attachment=True)
 
-# def load_excel_data(file_path):
-#     xls = pd.ExcelFile(file_path)
-#     data = {}
-#     for sheet_name in xls.sheet_names:
-#         df = pd.read_excel(xls, sheet_name=sheet_name)
-#         df = df.where(pd.notnull(df), None)  # Replace NaN with None
-#         df = df.fillna('')  # Replace None with empty strings
-#         data[sheet_name] = df.to_dict(orient='records')
-#     return data
 def load_excel_data(file_path):
     xls = pd.ExcelFile(file_path)
     data = {}
     for sheet_name in xls.sheet_names:
         df = pd.read_excel(xls, sheet_name=sheet_name)
+        
+        # Convert 'TRADE_DATE' to 'dd-mm-yyyy' format if the column exists
+        if 'TRADE_DATE' in df.columns:
+            def convert_date(date_str):
+                try:
+                    date_obj = datetime.strptime(date_str.split()[0], '%Y-%m-%d')
+                    return date_obj.strftime('%d-%m-%Y')
+                except ValueError:
+                    return date_str
+
+            df['TRADE_DATE'] = df['TRADE_DATE'].apply(lambda x: convert_date(str(x)) if pd.notnull(x) and x != 'nan' else '')
         
         # Convert all columns to strings
         df = df.applymap(str)
